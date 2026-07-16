@@ -1,0 +1,6 @@
+name: mock_detector
+confidence_threshold: 0.5
+labels:
+  - bottle
+  - cup
+  - book

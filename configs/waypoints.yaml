@@ -1,0 +1,7 @@
+waypoints:
+  - id: living_room_table
+    description: living room coffee table area
+  - id: kitchen_counter
+    description: kitchen counter area
+  - id: bookshelf
+    description: bookshelf area

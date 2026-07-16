@@ -1,0 +1,13 @@
+object_priors:
+  bottle:
+    living_room_table: 0.5
+    kitchen_counter: 0.9
+    bookshelf: 0.2
+  cup:
+    living_room_table: 0.6
+    kitchen_counter: 0.8
+    bookshelf: 0.1
+  book:
+    living_room_table: 0.3
+    kitchen_counter: 0.1
+    bookshelf: 0.95
