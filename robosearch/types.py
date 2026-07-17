@@ -60,10 +60,11 @@ class SearchContext:
 
 @dataclass
 class SearchDecision:
-    next_waypoint_id: Optional[str]
-    next_view_angle_deg: Optional[float]
+    decision_type: str
+    waypoint_id: Optional[str]
     score: float
-    reason: str
+    score_breakdown: Dict[str, float] = field(default_factory=dict)
+    reason: List[str] = field(default_factory=list)
 
 
 @dataclass

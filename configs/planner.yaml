@@ -1,6 +1,10 @@
 max_observations: 10
 max_waypoints: 3
 max_actions: 20
+weights:
+  semantic_prior: 0.70
+  unvisited_bonus: 0.20
+  failure_penalty: 0.10
 default_turn_angles:
   - 0
   - 45

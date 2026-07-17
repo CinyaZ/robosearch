@@ -66,6 +66,40 @@ Current Stage 2 demo:
 python -m demos.memory_demo
 ```
 
+### Stage 3 Completed: NBV Lite
+
+Stage 3 implemented a lightweight next-best-view module for local search decisions.
+
+Current supported NBV features:
+
+- discrete local view sequencing
+- low-confidence target re-check actions
+- target-aware view filtering based on memory
+- decision-style output for later agent integration
+
+Stage 3 demo:
+
+```bash
+python -m demos.nbv_demo
+```
+
+### Stage 4 In Progress: Search Planner Lite
+
+The current Search Planner Lite implementation supports:
+
+- semantic prior loading from configuration
+- candidate waypoint scoring
+- visited-history penalty handling
+- failure-history penalty handling
+- ranked candidate output
+- explainable `SearchDecision` output
+
+Current Stage 4 demo:
+
+```bash
+python -m demos.search_planner_demo
+```
+
 ## Recommended Development Environment
 
 The project is currently being developed primarily in WSL with Conda.
@@ -75,7 +109,8 @@ Recommended environment:
 ```bash
 conda create -n robosearch python=3.10 -y
 conda activate robosearch
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
 ```
 
 ## Demos
@@ -118,6 +153,39 @@ Expected purpose:
 - verify searched-view lookup
 - verify searched-target-view lookup
 
+### 4. NBV Lite Demo
+
+```bash
+python -m demos.nbv_demo
+```
+
+Expected purpose:
+
+- verify local next-view selection
+- verify target-aware filtering with memory
+- verify low-confidence re-check action generation
+
+### 5. Search Planner Lite Demo
+
+```bash
+python -m demos.search_planner_demo
+```
+
+Expected purpose:
+
+- verify semantic prior scoring
+- verify ranked waypoint output
+- verify explainable planner decisions
+- verify deterministic selection behavior
+
+## Testing
+
+Run tests with the active project Python environment:
+
+```bash
+python -m pytest tests/test_search_planner.py
+```
+
 ## Current Module Boundaries
 
 To keep later stages maintainable, the project currently follows these responsibilities:
@@ -132,23 +200,24 @@ To keep later stages maintainable, the project currently follows these responsib
 
 ```text
 robosearch/
-├── README.md
-├── requirements.txt
-├── configs/
-├── demos/
-├── logs/
-├── robosearch/
-├── tests/
-├── outputs/
-└── work/
+|-- README.md
+|-- requirements.txt
+|-- requirements-dev.txt
+|-- configs/
+|-- demos/
+|-- logs/
+|-- robosearch/
+|-- tests/
+|-- outputs/
+`-- work/
 ```
 
 ## Next Planned Stage
 
-The next implementation target is `NBV Lite`, including:
+The next implementation target is `Planner integration into the V0 search loop`, including:
 
-- discrete local view ordering
-- low-confidence re-check behavior
-- local observation action selection without full navigation
-```
+- `SearchPlanner` integration into the existing state-machine flow
+- multi-waypoint mock search execution
+- planner-driven waypoint transitions
+- preparation for later real detector replacement
 ```
