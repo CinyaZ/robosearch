@@ -67,6 +67,13 @@ class SearchDecision:
 
 
 @dataclass
+class NBVDecision:
+    next_view_angle_deg: Optional[float]
+    command: MotionCommand
+    reason: str
+
+
+@dataclass
 class MotionCommand:
     action: str
     value: Optional[float] = None

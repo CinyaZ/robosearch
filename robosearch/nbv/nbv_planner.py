@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import Callable, List, Optional
 
-from robosearch.types import DetectionResult, MotionCommand
+from robosearch.types import DetectionResult, MotionCommand, NBVDecision
 
 
 @dataclass
@@ -25,6 +25,50 @@ class NBVPlanner:
         if not remaining_angles:
             return None
         return remaining_angles[0]
+
+    def select_next_target_view_angle(
+        self,
+        target_label: str,
+        waypoint_id: str,
+        visited_angles_deg: List[float],
+        has_searched_target_view: Callable[[str, str, float], bool],
+    ) -> Optional[float]:
+        candidates = [
+            angle
+            for angle in self.view_angles_deg
+            if angle not in set(visited_angles_deg)
+            and not has_searched_target_view(target_label, waypoint_id, angle)
+        ]
+        if self.max_local_views is not None:
+            max_candidates = max(self.max_local_views - len(visited_angles_deg), 0)
+            candidates = candidates[:max_candidates]
+        if not candidates:
+            return None
+        return candidates[0]
+
+    def select_next_target_view_decision(
+        self,
+        target_label: str,
+        waypoint_id: str,
+        visited_angles_deg: List[float],
+        has_searched_target_view: Callable[[str, str, float], bool],
+    ) -> Optional[NBVDecision]:
+        next_angle = self.select_next_target_view_angle(
+            target_label=target_label,
+            waypoint_id=waypoint_id,
+            visited_angles_deg=visited_angles_deg,
+            has_searched_target_view=has_searched_target_view,
+        )
+        if next_angle is None:
+            return None
+        return NBVDecision(
+            next_view_angle_deg=next_angle,
+            command=MotionCommand(action="rotate", value=next_angle),
+            reason=(
+                f"Selected next unsearched local view for target '{target_label}' "
+                f"at waypoint '{waypoint_id}'."
+            ),
+        )
 
     def suggest_recheck_action(
         self, detections: List[DetectionResult], target_label: str
